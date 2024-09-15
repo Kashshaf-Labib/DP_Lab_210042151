@@ -66,7 +66,7 @@ public class Driver {
         return notificationService;
     }
 
-    public boolean isAvailability() {
+    public boolean getAvailability() {
         return availability;
     }
 
@@ -84,18 +84,36 @@ public class Driver {
 
     public void acceptRide()
     {
-
+        this.availability = false;
+        System.out.println("Ride accepted by driver: " + this.name);
     }
-    public void rateDriver()
+    public void rateRider(double rating, Rider rider)
     {
-
+        rider.setRating((rider.getRating()+rating)/2);
     }
+
     public void updateLocation(String location)
     {
-
+        this.location = location;
     }
-    public void startTrip()
-    {
+    public void startTrip(Trip trip, TripHandler tripHandler) {
+        if (!this.availability) {
+            this.notificationService.sendNotification("Starting trip from: " + trip.getPickupLocation());
+            this.availability = false;
 
+            // Delegate the trip state update to TripHandler
+            tripHandler.startTrip(trip, this);  // Pass the driver to TripHandler
+        }
+    }
+
+    public void completeTrip(Trip trip, TripHandler tripHandler, Rider rider) {
+        this.notificationService.sendNotification("Completing trip to: " + trip.getDropLocation());
+        this.availability = true;
+
+        // Add the trip fare to driver's balance
+        this.totalBalance += trip.getFare();
+
+        // Delegate trip completion logic to TripHandler
+        tripHandler.completeTrip(trip, this, rider);  // Pass the driver and rider to TripHandler
     }
 }

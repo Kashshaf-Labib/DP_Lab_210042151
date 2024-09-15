@@ -7,7 +7,10 @@ public class Trip {
     private double fare;
     private double distance;
 
-    public Trip(int id, String pickupLocation, String dropLocation, VehicleType vehicleType, String status, double fare, double distance) {
+    private Driver driver;
+    private Rider rider;
+
+    public Trip(int id, String pickupLocation, String dropLocation, VehicleType vehicleType, String status, double fare, double distance, Rider rider) {
         this.id = id;
         this.pickupLocation = pickupLocation;
         this.dropLocation = dropLocation;
@@ -15,6 +18,7 @@ public class Trip {
         this.status = status;
         this.fare = fare;
         this.distance = distance;
+        this.rider = rider;
     }
 
     public int getId() {
@@ -73,22 +77,14 @@ public class Trip {
         this.distance = distance;
     }
 
-
-
-    public void calculateFare()
-    {
-        //calculate fare based on distance and vehicle type
+    public Rider getRider() {
+        return rider;
     }
 
-    public void assignDriver()
-    {
-        //assign driver to the trip
+    public void assignDriver(Driver driver) {
+        this.driver = driver;
+        this.status = "Driver Assigned";
+        driver.getNotificationService().sendNotification("You have been assigned to a trip from " + this.pickupLocation);
     }
-
-    public void startTrip()
-    {
-        //start the trip and use notification service
-    }
-
 
 }

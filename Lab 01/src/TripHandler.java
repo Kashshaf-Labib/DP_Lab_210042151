@@ -5,91 +5,107 @@ import java.util.Random;
 public class TripHandler {
 
     private int tripID = 1;
-    public List<Trip> trips = new ArrayList<>();
+    public List<Trip> activeTrips=new ArrayList<>();
+
+    public List<Trip>completedTrips=new ArrayList<>();
+
     private List<Driver> drivers = new ArrayList<>();
     private NotificationSender notificationSender = new NotificationSender();
     private PaymentProcessor paymentProcessor = new PaymentProcessor();
-    private Random random = new Random();
+    private Random random = new Random(); // As there is no way to calculate the distance form given location, I am using random distance
 
-    // Add available drivers to the system
     public void addDriver(Driver driver) {
         drivers.add(driver);
     }
 
-    // Rider requests a ride
     public void requestRide(Rider rider, String pickupLocation, String dropLocation, VehicleType vehicleType) {
         double distance = random.nextInt(20) + 1; // Generate a random distance between 1 and 20 km
         double fare = vehicleType.calculateFare(distance, 1);
 
-        // Check if rider has enough balance
         if (rider.getAvailableBalance() < fare) {
             System.out.println("Insufficient balance to book this trip.");
             return;
         }
 
-        // Find an available driver
         Driver assignedDriver = findAvailableDriver(vehicleType);
         if (assignedDriver == null) {
             System.out.println("No available drivers found.");
             return;
         }
 
-        // Create a new trip and notify both rider and driver
-        Trip trip = new Trip(tripID, pickupLocation, dropLocation, vehicleType, "Pending", fare, distance);
-        trips.add(trip);
+        // Create a new trip
+        Trip trip = new Trip(tripID, pickupLocation, dropLocation, vehicleType, "Starting", fare, distance, rider);
         tripID++;
+
+        // Assign the driver to the trip
+        assignDriverToTrip(trip, assignedDriver);
 
         // Notify rider and driver
         notificationSender.sendNotification(rider.getPreferredNotificationService(), "Ride request confirmed! Driver is on the way.");
         notificationSender.sendNotification(assignedDriver.getNotificationService(), "New trip assigned. Pickup location: " + pickupLocation);
 
-        // Start the trip after assigning driver
-        startTrip(trip, rider, assignedDriver);
+        // Let the driver accept the ride and start the trip
+        assignedDriver.acceptRide();
+        startTrip(trip, assignedDriver);
     }
+
 
     private Driver findAvailableDriver(VehicleType vehicleType) {
         for (Driver driver : drivers) {
-            if (driver.isAvailable() && driver.getVehicleType().getClass().equals(vehicleType.getClass())) {
-                driver.setAvailable(false); // Mark driver as unavailable
+            if (driver.getAvailability() && driver.getVehicleType().getClass().equals(vehicleType.getClass())) {
+                driver.setAvailability(false);
                 return driver;
             }
         }
         return null;
     }
 
-    private void startTrip(Trip trip, Rider rider, Driver driver) {
-        trip.setStatus("Ongoing");
-        notificationSender.sendNotification(rider.getPreferredNotificationService(), "Driver has arrived! Starting the trip.");
-        notificationSender.sendNotification(driver.getNotificationService(), "Trip started. Heading to " + trip.getDropLocation());
+    public void startTrip(Trip trip, Driver driver) {
+        // Mark the trip as "In Progress"
+        trip.setStatus("In Progress");
 
-        completeTrip(trip, rider, driver);
+        // Notify the rider
+        trip.getRider().getPreferredNotificationService().sendNotification("Your trip has started!");
+
+        // Move the trip to active trips
+        activeTrips.add(trip);
+
+        // Any other logic like tracking the trip
+        System.out.println("Trip started by driver: " + driver.getName() + " from " + trip.getPickupLocation());
     }
 
-    private void completeTrip(Trip trip, Rider rider, Driver driver) {
+    public void completeTrip(Trip trip, Driver driver, Rider rider) {
+        // Mark the trip as "Completed"
         trip.setStatus("Completed");
 
-        // Process payment
-        paymentProcessor.processPayment(trip.getFare(), rider.getPreferredPaymentMethod());
+        // Make the rider pay the fare
+        rider.makePayment(trip.getFare());
 
-        // Update driver's balance
-        driver.setTotalBalance(driver.getTotalBalance() + trip.getFare());
+        // Notify both rider and driver
+        rider.getPreferredNotificationService().sendNotification("Trip completed! Thank you for riding.");
+        driver.getNotificationService().sendNotification("Trip completed. Fare: " + trip.getFare());
 
-        // Notify rider and driver
-        notificationSender.sendNotification(rider.getPreferredNotificationService(), "Trip completed. Payment processed.");
-        notificationSender.sendNotification(driver.getNotificationService(), "Trip completed. You've earned $" + trip.getFare());
+        // Remove the trip from active trips and add it to completed trips
+        activeTrips.remove(trip);
+        completedTrips.add(trip);
 
-        // Set driver as available again
-        driver.setAvailable(true);
+        System.out.println("Trip completed by driver: " + driver.getName() + " to " + trip.getDropLocation());
+        driver.setAvailability(true);
     }
 
-    // Optional: Admin can view trip history
+    public void assignDriverToTrip(Trip trip, Driver driver) {
+        trip.assignDriver(driver);
+        System.out.println("Driver " + driver.getName() + " has been assigned to trip.");
+    }
+
     public void viewTripHistory() {
-        for (Trip trip : trips) {
+        for (Trip trip : activeTrips) {
+            System.out.println("Trip ID: " + trip.getId() + ", Status: " + trip.getStatus() + ", Fare: $" + trip.getFare());
+        }
+        for(Trip trip:completedTrips)
+        {
             System.out.println("Trip ID: " + trip.getId() + ", Status: " + trip.getStatus() + ", Fare: $" + trip.getFare());
         }
     }
-
-
-
 
 }

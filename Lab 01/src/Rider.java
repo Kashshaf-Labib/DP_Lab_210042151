@@ -71,16 +71,16 @@ public class Rider {
 
     public void requestRide(String pickUpLocation, String dropLocation, VehicleType vehicleType)
     {
-
+        TripHandler tripHandler = new TripHandler();
+        tripHandler.requestRide(this, pickUpLocation, dropLocation, vehicleType);
     }
 
-    public void rateDriver(double rating)
+    public void rateDriver(double rating, Driver driver)
     {
-
-
+        driver.setRating((driver.getRating()+rating)/2);
     }
     public void makePayment(double amount)
     {
-
+        availableBalance -= amount;
     }
 }
