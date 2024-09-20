@@ -3,13 +3,13 @@ public class Rider {
     private String name;
     private String location;
     private double rating;
-    private PaymentMethod preferredPaymentMethod;
+    private IPaymentMethod preferredPaymentMethod;
 
     private double availableBalance;
 
-    private NotificationService notificationService;
+    private INotificationService notificationService;
 
-    public Rider(String id, String name, String location, double rating, PaymentMethod preferredPaymentMethod, double availableBalance, NotificationService notificationService) {
+    public Rider(String id, String name, String location, double rating, IPaymentMethod preferredPaymentMethod, double availableBalance, INotificationService notificationService) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -51,15 +51,15 @@ public class Rider {
         this.rating = rating;
     }
 
-    public PaymentMethod getPreferredPaymentMethod() {
+    public IPaymentMethod getPreferredPaymentMethod() {
         return preferredPaymentMethod;
     }
 
-    public void setPreferredPaymentMethod(PaymentMethod preferredPaymentMethod) {
+    public void setPreferredPaymentMethod(IPaymentMethod preferredPaymentMethod) {
         this.preferredPaymentMethod = preferredPaymentMethod;
     }
 
-    public NotificationService getPreferredNotificationService() { return notificationService; }
+    public INotificationService getPreferredNotificationService() { return notificationService; }
 
     public double getAvailableBalance() {
         return availableBalance;

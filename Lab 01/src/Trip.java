@@ -81,6 +81,8 @@ public class Trip {
         return rider;
     }
 
+    public Driver getDriver(){return driver;}
+
     public void assignDriver(Driver driver) {
         this.driver = driver;
         this.status = "Driver Assigned";

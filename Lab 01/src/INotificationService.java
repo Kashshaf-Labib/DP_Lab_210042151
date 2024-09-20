@@ -1,3 +1,3 @@
-public interface NotificationService {
+public interface INotificationService {
     public void sendNotification(String message);
 }

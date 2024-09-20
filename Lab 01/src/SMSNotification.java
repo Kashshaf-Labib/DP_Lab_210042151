@@ -1,4 +1,4 @@
-public class SMSNotification implements NotificationService {
+public class SMSNotification implements INotificationService {
     @Override
     public void sendNotification(String message) {
         System.out.println("SMS Notification: "+message);

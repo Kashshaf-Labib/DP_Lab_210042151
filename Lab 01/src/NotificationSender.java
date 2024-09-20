@@ -1,5 +1,5 @@
 public class NotificationSender {
-    public void sendNotification(NotificationService notificationService, String message) {
+    public void sendNotification(INotificationService notificationService, String message) {
         notificationService.sendNotification(message);
     }
 }

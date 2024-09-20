@@ -9,9 +9,9 @@ public class Driver {
 
     private double totalBalance;
 
-    private NotificationService notificationService;
+    private INotificationService notificationService;
 
-    public Driver(int id, String name, String location, double rating, VehicleType vehicleType, double totalBalance, NotificationService notificationService) {
+    public Driver(int id, String name, String location, double rating, VehicleType vehicleType, double totalBalance, INotificationService notificationService) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -62,7 +62,7 @@ public class Driver {
         VehicleType = vehicleType;
     }
 
-    public NotificationService getNotificationService() {
+    public INotificationService getNotificationService() {
         return notificationService;
     }
 
