@@ -19,8 +19,10 @@ public class TripHandler {
     }
 
     public void requestRide(Rider rider, String pickupLocation, String dropLocation, VehicleType vehicleType) {
+        System.out.println("Rider " + rider.getName() + " is requesting a ride from " + pickupLocation + " to " + dropLocation);
         double distance = random.nextInt(20) + 1; // Generate a random distance between 1 and 20 km
         double fare = vehicleType.calculateFare(distance, 1);
+        System.out.println("Estimated fare: $" + fare);
 
         if (rider.getAvailableBalance() < fare) {
             System.out.println("Insufficient balance to book this trip.");
@@ -50,8 +52,11 @@ public class TripHandler {
     }
 
 
+
+
     private Driver findAvailableDriver(VehicleType vehicleType) {
         for (Driver driver : drivers) {
+            System.out.println("Checking driver: " + driver.getName() + ", Availability: " + driver.getAvailability() + ", Vehicle: " + driver.getVehicleType());
             if (driver.getAvailability() && driver.getVehicleType().getClass().equals(vehicleType.getClass())) {
                 driver.setAvailability(false);
                 return driver;
