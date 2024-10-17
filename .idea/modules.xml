@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Lab 01/Lab 01.iml" filepath="$PROJECT_DIR$/Lab 01/Lab 01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lab 03 (Template Method Pattern)/Lab 03 (Template Method Pattern).iml" filepath="$PROJECT_DIR$/Lab 03 (Template Method Pattern)/Lab 03 (Template Method Pattern).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lab 04 (Decorator Pattern - Compile Time Solution)/Lab 04 (Decorator Pattern - Compile Time Solution).iml" filepath="$PROJECT_DIR$/Lab 04 (Decorator Pattern - Compile Time Solution)/Lab 04 (Decorator Pattern - Compile Time Solution).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lab 04 (Decorator Pattern -Runtime Solution)/Lab 04 (Decorator Pattern -Runtime Solution).iml" filepath="$PROJECT_DIR$/Lab 04 (Decorator Pattern -Runtime Solution)/Lab 04 (Decorator Pattern -Runtime Solution).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lab 04 (Decorator Pattern - Compile Time Solution)/Lab 04 (Runtime Solution)/Lab 04 (Runtime Solution).iml" filepath="$PROJECT_DIR$/Lab 04 (Decorator Pattern - Compile Time Solution)/Lab 04 (Runtime Solution)/Lab 04 (Runtime Solution).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lab 05 (Composite Pattern)/Lab 05 (Composite Pattern).iml" filepath="$PROJECT_DIR$/Lab 05 (Composite Pattern)/Lab 05 (Composite Pattern).iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SWE 4502 Design Pattern Lab.iml" filepath="$PROJECT_DIR$/.idea/SWE 4502 Design Pattern Lab.iml" />
+    </modules>
+  </component>
+</project>
