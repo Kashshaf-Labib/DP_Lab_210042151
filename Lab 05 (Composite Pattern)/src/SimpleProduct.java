@@ -1,13 +1,28 @@
-public abstract class SimpleProduct implements IProduct{
+public class SimpleProduct implements IProduct{
 
-    double price;
+    private String name;
 
-    String name;
+    private String description;
 
-    String description;
+    private double price;
     @Override
-    public abstract double getPrice();
+    public String getName() {
+        return name;
+    }
 
     @Override
-    public abstract String getDescription();
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    public SimpleProduct(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 }
