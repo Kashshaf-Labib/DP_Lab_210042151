@@ -48,9 +48,7 @@ public class Mediator {
     }
 
     public void notify(String uniqueID){
-        for (IWidget widget : dependency.get(uniqueID)) {
-            widget.update();
-        }
+        update(uniqueID);
     }
 
 
